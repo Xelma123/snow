@@ -1,0 +1,861 @@
+/* Snow Ses — Persona 5 aesthetic (matches Station)
+   Signature on this screen: All-Out Attack start orb (diagonal red/black) */
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
+
+:root {
+  --red: #ff0000;
+  --black: #0a0a0a;
+  --cream: #f5f5f0;
+  --gray: #2a2a2a;
+  --gray-mid: #4a4a4a;
+  --good: #f5f5f0;
+  --warn: #ff0000;
+  --bad: #ff0000;
+  --you: #f5f5f0;
+  --snow: #ff0000;
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+  --font-display: "Bebas Neue", "Impact", "Arial Narrow", sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --skew: -8deg;
+  --skew-hard: -12deg;
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: 0 !important;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  min-height: 100dvh;
+  background-color: var(--black);
+  background-image:
+    repeating-linear-gradient(
+      -18deg,
+      transparent,
+      transparent 11px,
+      rgba(255, 0, 0, 0.045) 11px,
+      rgba(255, 0, 0, 0.045) 12px
+    ),
+    radial-gradient(circle at 1px 1px, rgba(245, 245, 240, 0.06) 1px, transparent 0);
+  background-size: auto, 14px 14px;
+  color: var(--cream);
+  font-family: var(--font-body);
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Phase accents — flat color only, no soft glow gradients */
+body.phase-listening {
+  --phase: var(--red);
+}
+body.phase-thinking {
+  --phase: var(--cream);
+}
+body.phase-speaking {
+  --phase: var(--red);
+}
+body.phase-error {
+  --phase: var(--red);
+}
+body.phase-idle {
+  --phase: var(--gray-mid);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.hidden {
+  display: none !important;
+}
+
+@keyframes slash-in {
+  from {
+    opacity: 0;
+    transform: translateX(-40px) skewX(-16deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) skewX(0);
+  }
+}
+
+@keyframes jump-cut {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  30% {
+    transform: translate(-3px, 2px);
+  }
+  60% {
+    transform: translate(3px, -1px);
+  }
+}
+
+/* ——— Gate ——— */
+.gate {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: calc(20px + var(--safe-t)) 18px calc(20px + var(--safe-b));
+  position: relative;
+}
+
+.gate::before {
+  content: "";
+  position: absolute;
+  inset: 6% 0 auto;
+  height: 40%;
+  background: var(--red);
+  clip-path: polygon(0 20%, 100% 0, 100% 70%, 0 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.gate-card {
+  position: relative;
+  z-index: 1;
+  width: min(400px, 100%);
+  background: var(--black);
+  border: 4px solid var(--cream);
+  padding: 28px 20px 22px;
+  box-shadow: 10px 10px 0 var(--red);
+  animation: slash-in 0.28s steps(4, end) both;
+}
+
+.gate-card .brand,
+.brand {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red);
+  transform: skewX(var(--skew));
+  display: inline-block;
+}
+
+.gate-card h1,
+.modal-box h2 {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  transform: skewX(var(--skew-hard));
+  line-height: 0.95;
+  margin: 12px 0 10px;
+  font-size: clamp(1.8rem, 7vw, 2.4rem);
+  color: var(--cream);
+}
+
+.lead,
+.help {
+  color: var(--gray-mid);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  margin: 0 0 12px;
+}
+
+.steps {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.steps li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  color: var(--cream);
+}
+
+.steps .n {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  background: var(--red);
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  border: 2px solid var(--cream);
+  transform: skewX(var(--skew));
+}
+
+.btn-xl {
+  width: 100%;
+  min-height: 56px;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--red);
+  color: var(--cream);
+  border: 3px solid var(--cream);
+  cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
+  transform: skewX(var(--skew));
+  transition: background 0.08s steps(2, end), color 0.08s steps(2, end);
+}
+
+.btn-xl:hover {
+  background: var(--cream);
+  color: var(--black);
+  border-color: var(--black);
+  animation: jump-cut 0.18s steps(2, end);
+}
+
+/* ——— App shell ——— */
+.app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding:
+    calc(12px + var(--safe-t))
+    calc(14px + var(--safe-r))
+    calc(12px + var(--safe-b))
+    calc(14px + var(--safe-l));
+  max-width: 440px;
+  margin: 0 auto;
+  animation: slash-in 0.3s steps(4, end) both;
+  position: relative;
+}
+
+.app::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: var(--red);
+  clip-path: polygon(0 0, 100% 0, 100% 50%, 0 100%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.brand-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.brand-block .brand {
+  font-size: 1.5rem;
+  color: var(--cream);
+  text-shadow: 2px 2px 0 var(--black);
+}
+
+.brand-sub {
+  font-size: 0.72rem;
+  color: var(--black);
+  font-weight: 600;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform: skewX(var(--skew));
+}
+
+.top-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.icon-btn {
+  min-height: 40px;
+  padding: 6px 10px;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--black);
+  color: var(--cream);
+  border: 3px solid var(--cream);
+  cursor: pointer;
+  clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
+}
+
+.icon-btn:hover {
+  background: var(--cream);
+  color: var(--black);
+  border-color: var(--black);
+  animation: jump-cut 0.15s steps(2, end);
+}
+
+/* Banner */
+.banner {
+  display: none;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  font-size: 0.85rem;
+  border: 3px solid var(--cream);
+  background: var(--gray);
+  color: var(--cream);
+  transform: skewX(-2deg);
+}
+
+.banner.show {
+  display: block;
+  animation: slash-in 0.2s steps(3, end) both;
+}
+
+.banner.show.warn {
+  border-color: var(--red);
+  background: var(--black);
+  color: var(--red);
+}
+
+.banner.show.ok {
+  border-color: var(--cream);
+  background: var(--red);
+  color: var(--cream);
+}
+
+.banner.show.err,
+.banner.show.bad {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+/* Stage */
+.stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 8px 0 12px;
+}
+
+.status {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cream);
+  transform: skewX(var(--skew-hard));
+  line-height: 0.95;
+  align-self: flex-start;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--gray-mid);
+  line-height: 1.4;
+  max-width: 28ch;
+  align-self: flex-end;
+  text-align: right;
+  transform: rotate(0.5deg);
+}
+
+/* ═══ SIGNATURE: All-Out Attack talk orb ═══ */
+.orb-wrap {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 12px auto 8px;
+  display: grid;
+  place-items: center;
+}
+
+.orb-ring,
+.orb-ring-2 {
+  position: absolute;
+  inset: 0;
+  border: 3px solid var(--red);
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+  transform: rotate(-6deg);
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+.orb-ring-2 {
+  inset: 12px;
+  border-color: var(--cream);
+  transform: rotate(4deg);
+  opacity: 0.2;
+}
+
+body.phase-listening .orb-ring,
+body.phase-speaking .orb-ring {
+  opacity: 1;
+  animation: jump-cut 0.4s steps(2, end) infinite;
+}
+
+.orb {
+  position: relative;
+  z-index: 2;
+  width: 148px;
+  height: 148px;
+  padding: 0;
+  border: 4px solid var(--cream) !important;
+  /* Flat diagonal split — no gradient blend, hard cut at 48% */
+  background: linear-gradient(
+    135deg,
+    var(--red) 0%,
+    var(--red) 49.5%,
+    var(--black) 49.5%,
+    var(--black) 100%
+  ) !important;
+  color: var(--cream);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  overflow: hidden;
+  clip-path: polygon(8% 0, 100% 0, 92% 100%, 0 100%);
+  transform: skewX(-6deg) rotate(-3deg);
+  box-shadow: 6px 6px 0 var(--black), 0 0 0 2px var(--red);
+  display: grid;
+  place-items: center;
+  transition: none;
+}
+
+.orb-label {
+  position: relative;
+  z-index: 3;
+  transform: skewX(6deg) rotate(3deg);
+  text-shadow:
+    1px 1px 0 var(--black),
+    -1px 0 0 var(--black);
+  pointer-events: none;
+}
+
+body.phase-listening .orb {
+  background: linear-gradient(
+    135deg,
+    var(--cream) 0%,
+    var(--cream) 49.5%,
+    var(--red) 49.5%,
+    var(--red) 100%
+  ) !important;
+  color: var(--black);
+}
+body.phase-listening .orb-label {
+  text-shadow: none;
+}
+
+body.phase-thinking .orb {
+  background: var(--gray) !important;
+  color: var(--cream);
+}
+
+body.phase-speaking .orb {
+  background: linear-gradient(
+    135deg,
+    var(--black) 0%,
+    var(--black) 49.5%,
+    var(--red) 49.5%,
+    var(--red) 100%
+  ) !important;
+}
+
+body.phase-error .orb {
+  background: var(--red) !important;
+  color: var(--cream);
+  border-color: var(--black) !important;
+}
+
+.orb:hover {
+  animation: jump-cut 0.2s steps(2, end);
+  background: linear-gradient(
+    135deg,
+    var(--cream) 0%,
+    var(--cream) 49.5%,
+    var(--red) 49.5%,
+    var(--red) 100%
+  ) !important;
+  color: var(--black);
+}
+.orb:hover .orb-label {
+  text-shadow: none;
+}
+
+.orb:active {
+  transform: skewX(-6deg) rotate(-3deg) translate(3px, 3px);
+}
+
+/* Examples */
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 4px 0;
+}
+
+.chip {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  background: var(--cream);
+  color: var(--black);
+  border: 2px solid var(--black);
+  transform: skewX(var(--skew));
+  clip-path: polygon(4% 0, 100% 0, 96% 100%, 0 100%);
+}
+
+/* Transcripts — collage overlap */
+.transcripts {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 4px;
+}
+
+.bubble {
+  border: 3px solid var(--cream);
+  background: var(--black);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+}
+
+.bubble.you {
+  margin-right: 28px;
+  transform: rotate(-0.6deg);
+  clip-path: polygon(0 0, 100% 0, 97% 100%, 0 100%);
+  border-left: 6px solid var(--red);
+  z-index: 2;
+}
+
+.bubble.snow {
+  margin-left: 28px;
+  margin-top: -6px;
+  transform: rotate(0.5deg);
+  clip-path: polygon(3% 0, 100% 0, 100% 100%, 0 100%);
+  border-right: 6px solid var(--red);
+  background: var(--gray);
+  z-index: 1;
+}
+
+.bubble.empty {
+  opacity: 0.55;
+}
+
+.bubble .who {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--red);
+  transform: skewX(var(--skew));
+}
+
+.bubble.snow .who {
+  color: var(--cream);
+}
+
+.bubble .meta {
+  font-size: 0.7rem;
+  color: var(--gray-mid);
+  margin-top: 4px;
+}
+
+/* Dock */
+.dock {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 0;
+  border: 3px solid var(--cream);
+  margin-top: 8px;
+}
+
+.dock .primary,
+.dock .danger {
+  min-height: 54px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+}
+
+.dock .primary {
+  background: var(--red);
+  color: var(--cream);
+  border-right: 3px solid var(--cream);
+  /* AOO mini-split feel */
+  background-image: linear-gradient(
+    135deg,
+    var(--red) 0%,
+    var(--red) 48%,
+    var(--black) 48%,
+    var(--black) 100%
+  );
+}
+
+.dock .primary:hover:not(:disabled) {
+  background: var(--cream);
+  color: var(--black);
+  background-image: none;
+  animation: jump-cut 0.15s steps(2, end);
+}
+
+.dock .danger {
+  background: var(--black);
+  color: var(--red);
+}
+
+.dock .danger:hover:not(:disabled) {
+  background: var(--red);
+  color: var(--cream);
+}
+
+.dock button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* LEDs */
+.led-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+  justify-content: center;
+}
+
+.led-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cream);
+  transform: skewX(var(--skew));
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border: 2px solid var(--cream);
+  background: var(--gray-mid);
+}
+
+.dot.on {
+  background: var(--red);
+}
+.dot.warn {
+  background: var(--cream);
+}
+.dot.off {
+  background: var(--gray);
+}
+
+.foot-links {
+  text-align: center;
+  margin-top: 14px;
+}
+
+.linkish {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--red);
+  text-decoration: none;
+  border-bottom: 2px solid var(--red);
+  transform: skewX(var(--skew));
+  display: inline-block;
+}
+
+.linkish:hover {
+  background: var(--red);
+  color: var(--cream);
+  padding: 2px 8px;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(10, 10, 10, 0.9);
+  display: grid;
+  place-items: center;
+  padding: 18px;
+}
+
+.modal-box {
+  width: min(400px, 100%);
+  max-height: min(90dvh, 640px);
+  overflow-y: auto;
+  background: var(--black);
+  border: 4px solid var(--cream);
+  padding: 22px 18px;
+  box-shadow: 10px 10px 0 var(--red);
+  animation: slash-in 0.22s steps(3, end) both;
+}
+
+.modal-box label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--red);
+  transform: skewX(var(--skew));
+  margin: 10px 0 6px;
+}
+
+.modal-box input {
+  width: 100%;
+  min-height: 48px;
+  border: 2px solid var(--cream);
+  background: var(--gray);
+  color: var(--cream);
+  padding: 12px 14px;
+  outline: none;
+}
+
+.modal-box input:focus {
+  border-color: var(--red);
+  background: var(--black);
+}
+
+.field {
+  display: flex;
+  gap: 0;
+  border: 2px solid var(--cream);
+}
+
+.field input {
+  border: none;
+  flex: 1;
+  min-width: 0;
+}
+
+.toggle-pw {
+  min-height: 48px;
+  padding: 0 12px;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: var(--cream);
+  color: var(--black);
+  border: none;
+  border-left: 2px solid var(--cream);
+  cursor: pointer;
+}
+
+.test-result {
+  min-height: 1.2em;
+  font-size: 0.85rem;
+  margin: 8px 0 0;
+  color: var(--gray-mid);
+}
+.test-result.ok {
+  color: var(--cream);
+}
+.test-result.err {
+  color: var(--red);
+  font-weight: 600;
+}
+
+.modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.modal-actions.triple {
+  grid-template-columns: 1fr;
+}
+
+.modal-actions button,
+.btn-test,
+.btn-fill {
+  min-height: 48px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 2px solid var(--cream);
+  cursor: pointer;
+  background: var(--black);
+  color: var(--cream);
+}
+
+.btn-fill,
+.btn-test {
+  background: var(--red);
+  color: var(--cream);
+  border: 3px solid var(--cream);
+  clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%);
+  transform: skewX(var(--skew));
+}
+
+.btn-fill:hover,
+.btn-test:hover,
+.modal-actions button:hover {
+  background: var(--cream);
+  color: var(--black);
+  border-color: var(--black);
+  animation: jump-cut 0.15s steps(2, end);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+  }
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0A0A0A" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="description" content="Snow Station — ev kumandası. Beyin Acer’da." />
+    <link rel="manifest" href="/manifest.json" />
+    <title>Snow Station</title>
+    <link rel="stylesheet" href="/static/css/station.css" />
+  </head>
+  <body>
+    <div id="gate" class="gate hidden">
+      <div class="gate-box">
+        <div class="gate-mark">S</div>
+        <h1>SNOW</h1>
+        <p class="lead">Ev istasyonu. Token ve sunucu adresini bir kez gir.</p>
+        <input id="gateToken" type="password" placeholder="Erişim anahtarı (token)" autocomplete="current-password" />
+        <input id="gateServer" type="url" placeholder="http://192.168.1.13:8787 veya https://…" />
+        <button type="button" id="gateGo" class="btn-fill">Giriş</button>
+        <p id="gateErr" class="err"></p>
+      </div>
+    </div>
+
+    <div id="station" class="station hidden">
+      <header class="bar">
+        <div class="bar-left">
+          <span class="logo">SNOW</span>
+          <span class="bar-sub" id="serverHint">istasyon</span>
+        </div>
+        <div class="leds" aria-hidden="true">
+          <span class="led" id="ledBusy" title="İşleniyor"><i></i>RUN</span>
+          <span class="led" id="ledHa" title="Home Assistant"><i></i>HA</span>
+          <span class="led" id="ledAi" title="Ağ/AI"><i></i>NET</span>
+        </div>
+        <button type="button" class="icon-btn" id="btnCfg" title="Ayarlar" aria-label="Ayarlar">CFG</button>
+      </header>
+
+      <section class="hero" id="hero">
+        <div class="hero-top">
+          <div>
+            <p class="label">Salon ışığı</p>
+            <h2 id="lightName">—</h2>
+            <span class="status-pill" id="lightStatusPill">—</span>
+          </div>
+          <!-- Signature: All-Out Attack diagonal red/black split -->
+          <button type="button" class="power" id="btnPower" aria-label="Işığı aç veya kapat">
+            <span class="aoo-slash" aria-hidden="true"></span>
+            <span id="powerState">—</span>
+          </button>
+        </div>
+        <div class="brightness-block">
+          <div class="bri-row">
+            <span>Parlaklık</span>
+            <strong id="briVal">—</strong>
+          </div>
+          <input type="range" id="briSlider" min="1" max="100" value="50" aria-label="Parlaklık" />
+        </div>
+        <div class="quick">
+          <button type="button" data-cmd="Işığı aç">Aç</button>
+          <button type="button" data-cmd="Işığı kapat">Kapat</button>
+          <button type="button" data-cmd="Azıcık kıs">Kıs</button>
+          <button type="button" data-cmd="Biraz aç">Parlat</button>
+          <button type="button" data-cmd="Yarıya al">Yarı</button>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="card" id="cardWeather">
+          <p class="label">Hava</p>
+          <p class="card-main" id="weatherMain">—</p>
+          <p class="card-sub" id="weatherSub">Konum .env’den</p>
+          <button type="button" class="linkish" data-cmd="Hava nasıl?">Yenile</button>
+        </article>
+        <article class="card" id="cardHome">
+          <p class="label">Ev özeti</p>
+          <p class="card-main" id="homeMain">—</p>
+          <p class="card-sub" id="homeSub">Cihazlar</p>
+          <button type="button" class="linkish" id="btnRefresh">Durumu çek</button>
+        </article>
+      </section>
+
+      <section class="card" id="tvCard">
+        <p class="label">Televizyon</p>
+        <p class="card-main" id="tvMain">—</p>
+        <p class="card-sub" id="tvSub">Android TV</p>
+        <div class="quick tv-quick">
+          <button type="button" data-cmd="Televizyonu aç">Aç</button>
+          <button type="button" data-cmd="Televizyonu kapat">Kapat</button>
+          <button type="button" data-cmd="TV duraklat">Duraklat</button>
+          <button type="button" data-cmd="TV devam">Devam</button>
+        </div>
+      </section>
+
+      <section class="card" id="pcCard">
+        <p class="label">Bilgisayar</p>
+        <div class="hero-top" style="margin-bottom: 10px">
+          <div>
+            <p class="card-main" id="pcMain">MSI</p>
+            <p class="card-sub" id="pcSub">Durum bilinmiyor</p>
+            <span class="status-pill is-off" id="pcStatusPill">—</span>
+          </div>
+          <button type="button" class="power" id="btnPcWake" aria-label="Bilgisayarı uyandır">
+            <span class="aoo-slash" aria-hidden="true"></span>
+            <span id="pcWakeLabel">UYANDIR</span>
+          </button>
+        </div>
+        <div class="quick">
+          <button type="button" data-cmd="Bilgisayar açık mı">Durum</button>
+          <button type="button" data-cmd="Bilgisayarı uyut">Uyut</button>
+          <button type="button" data-cmd="Bilgisayarı kilitle">Kilitle</button>
+          <button type="button" data-cmd="Bilgisayarı kapat">Kapat</button>
+        </div>
+      </section>
+
+      <section class="card" id="routinesCard">
+        <p class="label">Rutinler</p>
+        <div class="scene-row" id="routineRow">
+          <span class="muted">Yükleniyor…</span>
+        </div>
+      </section>
+
+      <section class="card" id="jobsCard">
+        <div class="feed-head">
+          <p class="label">Zamanlanmış</p>
+          <button type="button" class="linkish" id="btnRefreshJobs">Yenile</button>
+        </div>
+        <ul id="jobsList" class="feed-list">
+          <li class="muted">Bekleyen iş yok</li>
+        </ul>
+      </section>
+
+      <section class="scenes card" id="scenesCard">
+        <p class="label">Sahneler</p>
+        <div class="scene-row" id="sceneRow">
+          <span class="muted">Yok veya yükleniyor</span>
+        </div>
+      </section>
+
+      <p class="path-badge debug-only muted" id="pathBadge"></p>
+
+      <section class="feed card">
+        <div class="feed-head">
+          <p class="label">Aktivite</p>
+          <button type="button" class="linkish" id="btnClearFeed">Temizle</button>
+        </div>
+        <ul id="feed" class="feed-list"></ul>
+      </section>
+
+      <a class="voice-link" href="/voice">Sesli asistan — bas ve konuş →</a>
+
+      <footer class="dock">
+        <button type="button" class="mic" id="btnMic" aria-label="Sesli komut">MIC</button>
+        <input id="cmd" type="text" placeholder="Ne yapayım?" enterkeyhint="send" autocomplete="off" />
+        <button type="button" class="go" id="btnGo">Gönder</button>
+      </footer>
+    </div>
+
+    <div id="cfg" class="modal hidden">
+      <div class="modal-box">
+        <h3>Bağlantı</h3>
+        <label>Sunucu (LAN veya uzak HTTPS)</label>
+        <input id="cfgServer" placeholder="http://192.168.1.13:8787" />
+        <label>Token</label>
+        <input id="cfgToken" type="password" />
+        <p class="muted" style="margin-top: 12px; font-size: 0.8rem; line-height: 1.4">
+          Uzaktan erişim için sunucu adresine tünel URL’ini yaz (VPN gerekmez). Token güçlü olsun.
+        </p>
+        <div class="modal-actions">
+          <button type="button" class="btn-fill" id="cfgSave">Kaydet</button>
+          <button type="button" class="btn-ghost" id="cfgClose">Kapat</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/static/js/personal-defaults.js"></script>
+    <script type="module" src="/static/js/station.js"></script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SnowStation" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/p5_black</item>
+        <item name="android:navigationBarColor">@color/p5_black</item>
+        <item name="android:windowBackground">@color/p5_black</item>
+        <item name="colorPrimary">@color/p5_red</item>
+        <item name="colorPrimaryVariant">@color/p5_black</item>
+        <item name="colorOnPrimary">@color/p5_cream</item>
+        <item name="colorSecondary">@color/p5_cream</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

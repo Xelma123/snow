@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no"
+    />
+    <meta name="theme-color" content="#0A0A0A" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="description"
+      content="Snow Ses — ev asistanınla çift yönlü konuş. Konuş, dinle, evini yönet."
+    />
+    <title>Snow Ses</title>
+    <link rel="manifest" href="/manifest-voice.json" />
+    <link rel="stylesheet" href="/static/css/voice.css" />
+  </head>
+  <body class="phase-idle">
+    <!-- First-run / no token -->
+    <div id="gate" class="gate" role="dialog" aria-labelledby="gateTitle" aria-modal="true">
+      <div class="gate-card">
+        <div class="brand">SNOW SES</div>
+        <h1 id="gateTitle">Evine seslen</h1>
+        <p class="lead">
+          Konuşursun, Snow anlar ve cevaplar — ışık, TV, rutinler. Ayarlar bir kez;
+          sonra sadece konuş.
+        </p>
+        <ol class="steps">
+          <li>
+            <span class="n">1</span>
+            <span>Evdeki Snow sunucusunun adresini gir (ör. <strong>192.168.1.10:8787</strong>)</span>
+          </li>
+          <li>
+            <span class="n">2</span>
+            <span>Kurulumda verdiğin <strong>erişim anahtarını</strong> (token) yaz</span>
+          </li>
+          <li>
+            <span class="n">3</span>
+            <span><strong>Bağlantıyı dene</strong>, sonra büyük düğmeye basıp konuş</span>
+          </li>
+        </ol>
+        <button type="button" class="btn-xl" id="btnGate">Bağlantıyı ayarla</button>
+      </div>
+    </div>
+
+    <div class="app">
+      <header class="top">
+        <div class="brand-block">
+          <span class="brand">SNOW SES</span>
+          <span class="brand-sub" id="serverLabel">Bağlı değil</span>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="icon-btn" id="btnHelp" title="Nasıl kullanılır" aria-label="Yardım">
+            ?
+          </button>
+          <button type="button" class="icon-btn" id="btnNewSession" title="Sohbeti sıfırla" aria-label="Yeni sohbet">
+            Yeni
+          </button>
+          <button type="button" class="icon-btn" id="btnCfg" title="Ayarlar" aria-label="Ayarlar">
+            Ayar
+          </button>
+        </div>
+      </header>
+
+      <div id="banner" class="banner" role="status" aria-live="polite"></div>
+
+      <main class="stage">
+        <p class="status" id="status" aria-live="polite">Hazır</p>
+        <p class="hint" id="hint">Büyük düğmeye bas → konuş → cevap. Sonraki için yine bas.</p>
+
+        <div class="orb-wrap">
+          <div class="orb-ring" aria-hidden="true"></div>
+          <div class="orb-ring-2" aria-hidden="true"></div>
+          <button
+            type="button"
+            class="orb"
+            id="orb"
+            aria-label="Konuşmayı başlat"
+          >
+            <span class="orb-label">BAŞLAT</span>
+          </button>
+        </div>
+
+        <div class="examples" id="examples" aria-label="Örnek cümleler">
+          <span class="chip">“Işığı aç”</span>
+          <span class="chip">“MSI’yı uyandır”</span>
+          <span class="chip">“Bilgisayar açık mı”</span>
+          <span class="chip">“Sekmeyi kapat”</span>
+        </div>
+
+        <div class="transcripts">
+          <div class="bubble you empty" id="youBubble">
+            <span class="who">Sen</span>
+            <span id="youText">Henüz bir şey söylemedin</span>
+          </div>
+          <div class="bubble snow empty" id="snowBubble">
+            <span class="who">Snow</span>
+            <span id="snowText">Cevap burada görünecek ve seslenecek</span>
+            <span class="meta" id="snowMeta" hidden></span>
+          </div>
+        </div>
+      </main>
+
+      <div class="dock">
+        <button type="button" class="primary" id="btnStart">Konuş</button>
+        <button type="button" class="danger" id="btnStop" disabled>İptal</button>
+      </div>
+
+      <div class="led-row" aria-hidden="true">
+        <span class="led-item"><i class="dot off" id="ledLink"></i> sunucu</span>
+        <span class="led-item"><i class="dot off" id="ledMic"></i> mikrofon</span>
+        <span class="led-item"><i class="dot off" id="ledPhase"></i> durum</span>
+      </div>
+
+      <div class="foot-links">
+        <a class="linkish" href="/">Işık paneli &amp; işler (istasyon)</a>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div id="cfg" class="modal hidden" role="dialog" aria-labelledby="cfgTitle" aria-modal="true">
+      <div class="modal-box">
+        <h2 id="cfgTitle">Bağlantı ayarları</h2>
+        <p class="lead">Bu bilgiler telefonda saklanır; ev dışına gönderilmez.</p>
+
+        <label for="cfgServer">Snow sunucu adresi</label>
+        <input
+          id="cfgServer"
+          inputmode="url"
+          autocomplete="url"
+          placeholder="http://192.168.1.10:8787"
+          spellcheck="false"
+        />
+
+        <label for="cfgToken">Erişim anahtarı (token)</label>
+        <div class="field">
+          <input
+            id="cfgToken"
+            type="password"
+            autocomplete="current-password"
+            placeholder="Kurulumda .env içindeki SNOW_APP_TOKEN"
+            spellcheck="false"
+          />
+          <button type="button" class="toggle-pw" id="btnToggleToken" aria-label="Anahtarı göster">
+            Göster
+          </button>
+        </div>
+
+        <p class="help">
+          Ses tanıma ve konuşma <strong>telefonunda</strong> olur. Snow sadece metni alır —
+          ev komutlarını Acer’daki beyin çalıştırır. En iyi deneyim: <strong>Chrome</strong>.
+        </p>
+
+        <p class="test-result" id="testResult" role="status"></p>
+
+        <div class="modal-actions triple">
+          <button type="button" class="btn-test" id="cfgTest">Bağlantıyı dene</button>
+          <button type="button" class="btn-fill" id="cfgSave">Kaydet</button>
+          <button type="button" id="cfgClose">Kapat</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Help -->
+    <div id="help" class="modal hidden" role="dialog" aria-labelledby="helpTitle" aria-modal="true">
+      <div class="modal-box">
+        <h2 id="helpTitle">Nasıl kullanılır?</h2>
+        <ol class="steps">
+          <li>
+            <span class="n">1</span>
+            <span>Ortadaki <strong>KONUŞ</strong> düğmesine bas (mikrofon sadece o an açılır)</span>
+          </li>
+          <li>
+            <span class="n">2</span>
+            <span>Komutunu söyle — “ışığı aç”, “5 dk sonra kapat”, “film gecesi”</span>
+          </li>
+          <li>
+            <span class="n">3</span>
+            <span>Snow cevaplar (yazı + ses). <strong>Otomatik yeniden dinlemez</strong></span>
+          </li>
+          <li>
+            <span class="n">4</span>
+            <span>Yeni cümle için yine bas. İptal / kesmek için dinlerken veya cevapta bas</span>
+          </li>
+        </ol>
+        <p class="help">
+          Böylece sistem “bip” sesi tur başına en fazla bir kez gelir.
+          Mikrofon izni: Ayarlar → Snow Ses → Mikrofon.
+          AI sohbeti için Acer’da OPENROUTER_API_KEY; ışık/TV key olmadan da çalışabilir.
+        </p>
+        <div class="modal-actions">
+          <button type="button" class="btn-fill" id="helpClose" style="grid-column: 1 / -1">
+            Anladım
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <p class="sr-only" id="liveRegion" aria-live="assertive" aria-atomic="true"></p>
+
+    <script src="/static/js/personal-defaults.js"></script>
+    <script type="module" src="/static/js/converse.js"></script>
+  </body>
+</html>

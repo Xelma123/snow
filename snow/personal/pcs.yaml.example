@@ -1,0 +1,37 @@
+# PC hedefleri — bu dosyayı `pcs.yaml` olarak kopyala ve kendi değerlerinle doldur.
+#
+#   cp personal/pcs.yaml.example personal/pcs.yaml
+#
+# `pcs.yaml` .gitignore kapsamındadır: gerçek MAC adresi, LAN IP'leri ve ajan
+# URL'si ağ topolojini ifşa eder — asla commit'lenmemelidir.
+#
+# NOT (WOL): Ethernet MAC + kablo, Wi-Fi (WoWLAN) MAC'inden çok daha güvenilir
+# uyanır. Her ikisi de varsa Ethernet'i tercih et. BIOS'ta WOL açık ve Windows'ta
+# Fast Startup kapalı olmalı.
+
+pcs:
+  msi:
+    title: "MSI"
+    # Sesli komutta bu kelimelerden biri geçerse bu makine hedeflenir.
+    # UYARI: eşleştirme en az 3 karakter ister (bkz. resolve_fuzzy) — tek harfli
+    # alias yazma, yanlış makineyi hedefler.
+    aliases:
+      - msi
+      - bilgisayar
+      - laptop
+      - masaustu
+
+    # Makinenin LAN IP'si (router'da DHCP rezervasyonu ver — IP değişmesin)
+    host: "192.168.1.x"
+
+    # WOL için MAC. Aygıt Yöneticisi -> ilgili ağ kartı -> Ayrıntılar -> Fiziksel Adres
+    mac: "AA:BB:CC:DD:EE:FF"
+
+    # pc-agent'ın dinlediği adres (varsayılan port 8790)
+    agent_url: "http://192.168.1.x:8790"
+
+    # Magic packet'in gönderileceği yayın adresi (genelde ağının .255'i)
+    wol_broadcast: "192.168.1.255"
+
+    # "Açık mı?" kontrolü için ping zaman aşımı
+    ping_timeout_ms: 800

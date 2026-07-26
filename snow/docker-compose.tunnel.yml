@@ -1,0 +1,19 @@
+# Optional: Cloudflare Tunnel — no VPN, no port-forward.
+# 1) Create tunnel in Cloudflare Zero Trust dashboard
+# 2) Put token in .env: CLOUDFLARE_TUNNEL_TOKEN=eyJ...
+# 3) docker compose -f docker-compose.yml -f docker-compose.tunnel.yml up -d
+#
+# Public hostname should route to http://snow:8787 (same compose network)
+# or http://host.docker.internal:8787 depending on connector install method.
+
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: snow-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    depends_on:
+      - snow
+    # Tunnel reaches snow by service name on the default compose network

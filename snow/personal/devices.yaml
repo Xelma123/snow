@@ -1,0 +1,14 @@
+# HA entity_id'lerini kendi sistemine göre düzelt
+devices:
+  # Işık
+  salon: light.bulb
+  ampul: light.bulb
+  lamba: light.bulb
+  isik: light.bulb
+  ates: light.bulb
+  atesi: light.bulb
+  # TV — Arçelik Android TV (HA entity)
+  tv: media_player.arcelik_android_tv
+  televizyon: media_player.arcelik_android_tv
+  android: media_player.arcelik_android_tv
+  arcelik: media_player.arcelik_android_tv

@@ -1,0 +1,1 @@
+"""Snow server application package."""

@@ -1,0 +1,7 @@
+model_list:
+  - model_name: glm-5.2-coder
+    litellm_params:
+      model: nvidia_nim/z-ai/glm-5.2
+      api_key: os.environ/NVIDIA_NIM_API_KEY
+      api_base: https://integrate.api.nvidia.com/v1
+      drop_params: true

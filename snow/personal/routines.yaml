@@ -1,0 +1,37 @@
+# Data-driven macros — LLM calls run_routine; steps are tools, not hard-coded Python.
+routines:
+  film_gecesi:
+    title: Film gecesi
+    description: Loş ışık + TV aç
+    aliases: [film, sinema, film gecesi, movie]
+    steps:
+      - tool: light_control
+        args: { action: "on", brightness_abs: 20, color_temp_kelvin: 2700 }
+      - tool: media_control
+        args: { action: "on" }
+
+  iyi_geceler:
+    title: İyi geceler
+    description: Işık kapat, TV kapat
+    aliases: [iyi geceler, good night, yat]
+    steps:
+      - tool: light_control
+        args: { action: "off" }
+      - tool: media_control
+        args: { action: "off" }
+
+  eve_donus:
+    title: Eve dönüş
+    description: Karşılama ışığı
+    aliases: [eve geldim, hosgeldin, welcome]
+    steps:
+      - tool: light_control
+        args: { action: "on", brightness_abs: 70 }
+
+  sabah:
+    title: Sabah
+    description: Parlak ışık
+    aliases: [gunaydin, sabah]
+    steps:
+      - tool: light_control
+        args: { action: "on", brightness_abs: 90, color_temp_kelvin: 4000 }

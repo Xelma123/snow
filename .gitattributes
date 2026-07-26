@@ -1,0 +1,43 @@
+# Satır sonu politikası
+#
+# Bu depo Windows'ta (MSI) geliştirilip Linux'ta (Acer) çalıştırılıyor.
+# Shell script'lerinde CRLF, Linux'ta şu hataya yol açar:
+#   bash: ./script.sh: /usr/bin/env^M: bad interpreter
+# Aşağıdaki kurallar bunu kökten engeller.
+
+# Varsayılan: git satır sonlarını normalize etsin
+* text=auto
+
+# Linux'ta çalışacak her şey ZORUNLU LF
+*.sh        text eol=lf
+*.bash      text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+Dockerfile  text eol=lf
+*.service   text eol=lf
+*.timer     text eol=lf
+Caddyfile   text eol=lf
+.env.example text eol=lf
+
+# Uzantısız ama Linux/Mac'te çalıştırılan script'ler — CRLF olursa bozulur
+gradlew     text eol=lf
+*.sh.j2     text eol=lf
+
+# Windows'ta çalışan script'ler CRLF kalsın
+*.ps1       text eol=crlf
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
+*.vbs       text eol=crlf
+gradlew.bat text eol=crlf
+
+# İkili dosyalar — asla dokunma
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.ico       binary
+*.apk       binary
+*.db        binary
+*.sqlite    binary
+*.sqlite3   binary
+*.jar       binary
+*.keystore  binary

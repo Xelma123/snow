@@ -1,0 +1,12 @@
+{
+  "name": "Snow Ses",
+  "short_name": "Snow Ses",
+  "description": "Ev asistanınla çift yönlü konuş — ışık, TV, rutinler. Beyin evinde.",
+  "start_url": "/voice",
+  "display": "standalone",
+  "background_color": "#0A0A0A",
+  "theme_color": "#FF0000",
+  "lang": "tr",
+  "orientation": "portrait",
+  "categories": ["utilities", "lifestyle"]
+}

@@ -1,0 +1,14 @@
+# Named one-shot macros on the PC (no recurring schedules).
+# Invoked via Snow: pc_control action=run_macro value=<id>
+macros:
+  browser:
+    title: Tarayıcı
+    description: Varsayılan tarayıcıyı aç
+    steps:
+      - action: open_app
+        value: chrome
+  notes:
+    title: Not defteri
+    steps:
+      - action: open_app
+        value: notepad

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Stylized S mark — red slash on black (P5 shell) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Diagonal red parallelogram -->
+    <path
+        android:fillColor="#FF0000"
+        android:pathData="M22,30 L86,18 L86,42 L22,54 Z" />
+    <!-- Cream S-ish bar -->
+    <path
+        android:fillColor="#F5F5F0"
+        android:pathData="M38,48 L78,40 L74,56 L34,64 Z" />
+    <path
+        android:fillColor="#FF0000"
+        android:pathData="M30,66 L90,54 L90,78 L30,90 Z" />
+</vector>

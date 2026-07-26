@@ -1,0 +1,98 @@
+# =============================================================================
+# Homelab — depo geneli ignore kuralları
+# =============================================================================
+# KURAL: Git'te KOD ve KONFİGÜRASYON durur.
+#        Sunucuda SIRLAR ve STATE kalır — bunların tek koruması restic yedeğidir.
+#
+# Bir dosyayı buraya eklemeden önce sor: "sızarsa ne olur?"
+# Sızarsa evin kontrolü gidiyorsa → buraya.
+# =============================================================================
+
+# --- SIRLAR ------------------------------------------------------------------
+# .env dosyaları her seviyede yok sayılır (snow/.env, pc-agent/.env, ...)
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.p12
+*.keystore
+*.jks
+secrets.yaml
+!**/secrets.yaml.example
+
+# restic / yedekleme parolaları
+.restic-password
+restic-password*
+
+# Cloudflare Tunnel kimlik dosyaları
+*.tunnel.json
+cert.pem
+
+# --- KİŞİSEL AĞ TOPOLOJİSİ ---------------------------------------------------
+# pcs.yaml gerçek Wi-Fi/Ethernet MAC adresi, LAN IP'leri ve ajan URL'si içerir.
+# Örnek şablonu (pcs.yaml.example) takip edilir, gerçeği edilmez.
+snow/personal/pcs.yaml
+
+# Envanter/teşhis çıktıları — sunucunun tam haritası
+envanter*.txt
+inventory*.txt
+*-inventory.txt
+
+# --- STATE / VERİ (yedeklenir, versiyonlanmaz) -------------------------------
+data/
+**/data/
+homeassistant/config/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# --- LOGLAR ------------------------------------------------------------------
+*.log
+*.log.*
+logs/
+**/logs/
+
+# --- PYTHON ------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# --- ANDROID -----------------------------------------------------------------
+# local.properties makineye özgü SDK yolunu (ve kullanıcı adını) içerir
+local.properties
+**/local.properties
+build/
+**/build/
+.gradle/
+**/.gradle/
+*.apk
+*.aab
+captures/
+
+# --- NODE (ileride web projeleri için) ---------------------------------------
+node_modules/
+dist/
+.next/
+
+# --- EDİTÖR / OS -------------------------------------------------------------
+.idea/
+.vscode/
+!.vscode/extensions.json
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# --- SNOW'A ÖZGÜ -------------------------------------------------------------
+web/js/personal-defaults.local.js
+**/web/js/personal-defaults.local.js
