@@ -1,15 +1,4 @@
-# =============================================================================
-# Homelab — depo geneli ignore kuralları
-# =============================================================================
-# KURAL: Git'te KOD ve KONFİGÜRASYON durur.
-#        Sunucuda SIRLAR ve STATE kalır — bunların tek koruması restic yedeğidir.
-#
-# Bir dosyayı buraya eklemeden önce sor: "sızarsa ne olur?"
-# Sızarsa evin kontrolü gidiyorsa → buraya.
-# =============================================================================
 
-# --- SIRLAR ------------------------------------------------------------------
-# .env dosyaları her seviyede yok sayılır (snow/.env, pc-agent/.env, ...)
 .env
 .env.local
 .env.*.local
